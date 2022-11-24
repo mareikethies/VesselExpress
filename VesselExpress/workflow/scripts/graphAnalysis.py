@@ -48,8 +48,7 @@ def processImage(skelImg, binImg, parameterDict):
     if parameterDict.get("extended_output") == 1:
         # save graph as image and graphml file
         graph_arr = stats.skeleton
-        utils.write_img((graph_arr * 255).astype('uint8'), dir + '/Graph_' + file_name + '.'
-                        + input_file.split('.')[1])
+        utils.write_img((graph_arr * 255).astype('uint8'), dir + '/graph.tif')
         g = stats.networkxGraph
         nx.write_graphml_lxml(g, dir + '/' + file_name + ".graphml")
 
@@ -62,8 +61,7 @@ def processImage(skelImg, binImg, parameterDict):
         brPt_img = np.zeros(graph_arr.shape)
         for ind in brPts:
             brPt_img[ind] = 255
-        utils.write_img(brPt_img.astype('uint8'), dir + '/BrPts_' + file_name + '.'
-                        + input_file.split('.')[1])
+        utils.write_img(brPt_img.astype('uint8'), dir + '/branchpoints.tif')
 
         # save image with terminal points
         endPts = []
@@ -73,8 +71,7 @@ def processImage(skelImg, binImg, parameterDict):
         endPt_img = np.zeros(graph_arr.shape)
         for ind in endPts:
             endPt_img[ind] = 255
-        utils.write_img(endPt_img.astype('uint8'), dir + '/EndPts_' + file_name + '.'
-                        + input_file.split('.')[1])
+        utils.write_img(endPt_img.astype('uint8'), dir + '/endpoints.tif')
 
     # Export statistics to csv files
     # os.makedirs(statsDir, exist_ok=True)
@@ -99,9 +96,9 @@ def processImage(skelImg, binImg, parameterDict):
     #                                  'BranchPt No. Branches', category='Branch')
 
     # create files containing all statisics in one csv per category (segment, filament, branches and endPtsRatio)
-    utils.saveAllStatsAsCSV(stats.segStatsDict, dir + '.' + input_file.split('.')[1] + '_Segment_Statistics.csv', file_name)
-    utils.saveAllFilStatsAsCSV(stats.filStatsDict, dir + '.' + input_file.split('.')[1] + '_Filament_Statistics.csv', file_name)
-    utils.saveBranchesBrPtAsCSV(stats.branchesBrPtDict, dir + '.' + input_file.split('.')[1] + '_BranchesPerBranchPt.csv', file_name)
+    utils.saveAllStatsAsCSV(stats.segStatsDict, dir + '/../results/vessel_segment_statistics.csv', file_name)
+    utils.saveAllFilStatsAsCSV(stats.filStatsDict, dir + '/../results/vessel_filament_statistics.csv', file_name)
+    utils.saveBranchesBrPtAsCSV(stats.branchesBrPtDict, dir + '/../results/vessel_branchpoint_statistics.csv', file_name)
     if parameterDict.get("experimental_flag") == 1:
         statsDir = os.path.join(dir, 'statistics')
         os.makedirs(statsDir, exist_ok=True)

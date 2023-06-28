@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import dask.array as da
 
 
 def getLength(path, dimensions):
@@ -40,7 +41,8 @@ def getRadius(distTrans, segment, smallRAMmode=0):
             sumRadii += distTrans[skelPt]
             if i % 100 == 99:
                 sumRadii = sumRadii.compute()
-        sumRadii = sumRadii.compute()
+        if isinstance(sumRadii, da.Array):
+            sumRadii = sumRadii.compute()
     return sumRadii / len(segment)
 
 

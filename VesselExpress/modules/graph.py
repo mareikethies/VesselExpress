@@ -143,7 +143,7 @@ class Graph:
         # pruning: delete branches with length below the distance to its closest border
         if self.smallRAMmode == 1:
             # client = Client()
-            self.radiusMatrix.to_zarr('tmp_zarr' + os.sep + self.fileName + '_radiusMatrix.zarr')
+            da.rechunk(self.radiusMatrix).to_zarr('tmp_zarr' + os.sep + self.fileName + '_radiusMatrix.zarr')
             self._prune(da.from_zarr('tmp_zarr' + os.sep + self.fileName + '_radiusMatrix.zarr'))
             #client.submit(self._prune, da.from_zarr('tmp_zarr' + os.sep + self.fileName + '_radiusMatrix.zarr'))
         else:
